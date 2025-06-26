@@ -7,13 +7,13 @@ class ShoppingMessage {
   /// 시작 메시지를 출력하는 메소드
   static void printWelcomeMessage() {
     stdout.writeln();
-    stdout.writeln('🛍️ 쇼핑몰에 오신 것을 환영합니다!');
+    stdout.writeln('🥳 쇼핑몰에 오신 것을 환영합니다!');
   }
 
   /// 종료 메시지를 출력하는 메소드
   static void printExitMessage() {
     stdout.writeln();
-    stdout.writeln('🤗 쇼핑몰에 방문해주셔서 감사합니다!');
+    stdout.writeln('🤗 안녕히 가세요! 이용해 주셔서 감사합니다.');
     stdout.writeln();
   }
 
@@ -58,14 +58,15 @@ class ShoppingMessage {
     return inputCount;
   }
 
-  /// 메뉴 구분자를 출력하는 메소드
-  static void printMenuDivider() {
-    stdout.write(' / ');
-  }
+  /// 메뉴 구분자를 반환하는 getter
+  static String get menuDivider => ' / ';
+
+  /// 라인 구분자를 반환하는 getter
+  static String get lineDivideChar => '=';
 
   /// 구분선을 출력하는 메소드
   static void printDivider() {
-    stdout.writeln('=' * 110);
+    stdout.writeln('=' * 100);
   }
 
   /// 입력 프롬프트를 출력하는 메소드

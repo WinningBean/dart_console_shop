@@ -26,21 +26,25 @@ class ShoppingMall {
       return; // 장바구니가 비어있으면 종료
     }
 
-    stdout.writeln('장바구니에 담긴 상품: ');
-    for (var entry in cart.entries) {
-      stdout.write(entry.key.name);
-      ShoppingMessage.printMenuDivider();
-      stdout.write(entry.key.price);
-      ShoppingMessage.printMenuDivider();
-      stdout.writeln('${entry.value}개');
-    }
+    stdout.writeln('🛒 장바구니에 담긴 상품 리스트');
+    stdout.writeln(
+      cart.entries
+          .map(
+            (entry) =>
+                '${entry.key.name} '
+                '${entry.key.price}원 × ${entry.value}개${ShoppingMessage.menuDivider}'
+                '${entry.key.price * entry.value}원',
+          )
+          .join('\n'),
+    );
 
+    stdout.writeln(ShoppingMessage.lineDivideChar * 30);
     showTotal(); // 총 가격 출력
   }
 
   /// 장바구니에 담긴 상품의 총 가격을 출력하는 메소드
   void showTotal() {
-    stdout.writeln('💰 장바구니에 $cartPrice원 어치를 담있습니다.');
+    stdout.writeln('💰 장바구니 총 가격: $cartPrice원');
   }
 
   /// 장바구니에 상품을 추가하는 메소드
@@ -62,7 +66,7 @@ class ShoppingMall {
       (product) => product.name == productName,
     );
     addProductToCart(product, count);
-    stdout.writeln('🛒 $count개의 ${product.name}을(를) 장바구니에 담았습니다.');
+    stdout.writeln('🛍️ $count개의 ${product.name}을(를) 장바구니에 담았습니다.');
   }
 
   /// 장바구니에 상품을 추가하는 내부 메소드
@@ -106,7 +110,7 @@ class ShoppingMall {
     ShoppingMessage.printExitMessage();
   }
 
-  /// 사용자로부터 메뉴 선택을 받는 메소드
+  /// 사용자로부터 메뉴 선택을 받는 getter
   ShoppingMenu? get selectedMenu {
     ShoppingMessage.printInputPrompt();
 
@@ -146,7 +150,7 @@ class ShoppingMall {
     ShoppingMessage.printMenu(); // 메뉴 출력
   }
 
-  /// 쇼핑몰을 종료할지 여부를 묻는 메소드
+  /// 쇼핑몰을 종료할지 여부를 묻는 getter
   bool get isRealyExit {
     stdout.write("정말 종료하시겠습니까? ('y'입력 시 종료): ");
     String? input = stdin.readLineSync();
