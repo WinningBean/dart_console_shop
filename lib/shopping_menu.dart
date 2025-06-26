@@ -1,5 +1,3 @@
-import 'dart:io';
-
 /// 쇼핑 메뉴를 정의하는 enum
 enum ShoppingMenu {
   viewProducts(menuNum: 1, description: '상품 목록 보기'),
@@ -21,12 +19,7 @@ enum ShoppingMenu {
       .toList()
       .join(' / ');
 
-  /// 정렬된 메뉴 목록을 출력하는 메소드
-  static void printSortedMenu() {
-    stdout.writeln(sortedMenuGuide);
-  }
-
-  /// 사용자 입력을 받아 해당 메뉴를 반환하는 메소드
+  /// menuNum에 해당하는 메뉴를 반환하는 메소드
   static ShoppingMenu? getMenuFromMenuNum(int menuNum) {
     return ShoppingMenu.values.firstWhere(
       (menu) => menu.menuNum == menuNum,

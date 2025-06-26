@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dart_console_shop/shopping_menu.dart';
 
 /// 쇼핑몰 메시지를 입출력 클래스
-class ShoppingMessage {
+class ShoppingIO {
   /// 시작 메시지를 출력하는 메소드
   static void printWelcomeMessage() {
     stdout.writeln();
@@ -22,7 +22,7 @@ class ShoppingMessage {
     stdout.writeln();
     stdout.writeln('메뉴를 선택하세요 (숫자를 입력하세요) ⬇️');
     printDivider();
-    ShoppingMenu.printSortedMenu();
+    stdout.writeln(ShoppingMenu.sortedMenuGuide);
     printDivider();
   }
 
@@ -56,6 +56,23 @@ class ShoppingMessage {
     }
 
     return inputCount;
+  }
+
+  /// 사용자로부터 메뉴 선택을 받는 getter
+  static ShoppingMenu? get selectedMenu {
+    printInputPrompt();
+
+    ShoppingMenu? menu;
+    try {
+      menu = ShoppingMenu.getMenuFromMenuNum(
+        int.tryParse(stdin.readLineSync() ?? '') ?? 0,
+      );
+    } on ArgumentError catch (e) {
+      stdout.write(e.message + ' ');
+      printRetryMessage();
+      return null;
+    }
+    return menu;
   }
 
   /// 메뉴 구분자를 반환하는 getter

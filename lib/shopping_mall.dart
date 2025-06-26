@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dart_console_shop/product.dart';
 import 'package:dart_console_shop/shopping_menu.dart';
-import 'package:dart_console_shop/shopping_message.dart';
+import 'package:dart_console_shop/shopping_io.dart';
 
 /// 쇼핑몰 클래스
 class ShoppingMall {
@@ -32,13 +32,13 @@ class ShoppingMall {
           .map(
             (entry) =>
                 '${entry.key.name} '
-                '${entry.key.price}원 × ${entry.value}개${ShoppingMessage.menuDivider}'
+                '${entry.key.price}원 × ${entry.value}개${ShoppingIO.menuDivider}'
                 '${entry.key.price * entry.value}원',
           )
           .join('\n'),
     );
 
-    stdout.writeln(ShoppingMessage.lineDivideChar * 30);
+    stdout.writeln(ShoppingIO.lineDivideChar * 30);
     showTotal(); // 총 가격 출력
   }
 
@@ -49,14 +49,14 @@ class ShoppingMall {
 
   /// 장바구니에 상품을 추가하는 메소드
   void addToCart() {
-    String? productName = ShoppingMessage.getInputProductName();
+    String? productName = ShoppingIO.getInputProductName();
     if (!products.any((product) => product.name == productName)) {
       stdout.write('해당 상품이 존재하지 않습니다. ');
-      ShoppingMessage.printRetryMessage();
+      ShoppingIO.printRetryMessage();
       return; // 상품 이름이 유효하지 않으면 종료
     }
 
-    int? count = ShoppingMessage.getInputWantedCount();
+    int? count = ShoppingIO.getInputWantedCount();
     if (count == null) {
       return; // 상품 개수가 유효하지 않으면 종료
     }
@@ -94,37 +94,20 @@ class ShoppingMall {
 
   /// 쇼핑을 시작하는 메소드
   void startShopping() {
-    ShoppingMessage.printWelcomeMessage();
-    ShoppingMessage.printMenu();
+    ShoppingIO.printWelcomeMessage();
+    ShoppingIO.printMenu();
 
     do {
       // 메뉴 선택
-      ShoppingMenu? menu = selectedMenu;
+      ShoppingMenu? menu = ShoppingIO.selectedMenu;
       if (menu == null) {
-        ShoppingMessage.printMenu();
+        ShoppingIO.printMenu();
         continue; // 잘못된 입력이면 다시 메뉴 출력
       }
       actionMenu(menu);
     } while (isStillShopping);
 
-    ShoppingMessage.printExitMessage();
-  }
-
-  /// 사용자로부터 메뉴 선택을 받는 getter
-  ShoppingMenu? get selectedMenu {
-    ShoppingMessage.printInputPrompt();
-
-    ShoppingMenu? menu;
-    try {
-      menu = ShoppingMenu.getMenuFromMenuNum(
-        int.tryParse(stdin.readLineSync() ?? '') ?? 0,
-      );
-    } on ArgumentError catch (e) {
-      stdout.write(e.message + ' ');
-      ShoppingMessage.printRetryMessage();
-      return null;
-    }
-    return menu;
+    ShoppingIO.printExitMessage();
   }
 
   /// 선택한 메뉴에 따라 동작을 수행하는 메소드
@@ -147,7 +130,7 @@ class ShoppingMall {
         break;
     }
 
-    ShoppingMessage.printMenu(); // 메뉴 출력
+    ShoppingIO.printMenu(); // 메뉴 출력
   }
 
   /// 쇼핑몰을 종료할지 여부를 묻는 getter
