@@ -50,10 +50,14 @@ class ShoppingMall {
   /// 장바구니에 상품을 추가하는 메소드
   void addToCart() {
     String? productName = ShoppingIO.getInputProductName();
+    if (productName == null) {
+      return; // 상품 이름이 유효하지 않으면 종료
+    }
+
     if (!products.any((product) => product.name == productName)) {
       stdout.write('해당 상품이 존재하지 않습니다. ');
       ShoppingIO.printRetryMessage();
-      return; // 상품 이름이 유효하지 않으면 종료
+      return; // 상품이 존재하지 않으면 종료
     }
 
     int? count = ShoppingIO.getInputWantedCount();
