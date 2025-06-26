@@ -15,17 +15,19 @@ class ShoppingMall {
   }
 
   void addToCart() {
-    String? productName = findProductName();
-    if (productName == null) {
+    String? productName = ShoppingMessage.getInputProductName();
+    if (!products.any((product) => product.name == productName)) {
+      stdout.write('해당 상품이 존재하지 않습니다. ');
+      ShoppingMessage.printRetryMessage();
       return; // 상품 이름이 유효하지 않으면 종료
     }
 
-    int? count = getWantedCount();
+    int? count = ShoppingMessage.getInputWantedCount();
     if (count == null) {
       return; // 상품 개수가 유효하지 않으면 종료
     }
 
-    // 상품 찾기
+    // 상품 찾고 장바구니 추가
     Product product = products.firstWhere((product) => product.name == productName);
     addProductToCart(product, count);
     stdout.writeln('🛒 $count ${product.name}을(를) 장바구니에 담았습니다.');
@@ -39,44 +41,6 @@ class ShoppingMall {
       cart[product] = count;
     }
     cartPrice += product.price * count;
-  }
-
-  String? findProductName() {
-    // 상품 이름 입력
-    stdout.write('상품 이름을 입력해 주세요: ');
-    String? inputName = stdin.readLineSync();
-    if (inputName == null || inputName.isEmpty) {
-      stdout.write('상품 이름이 입력되지 않았습니다. ');
-      ShoppingMessage.printRetryMessage();
-      return null;
-    }
-
-    if (!products.any((product) => product.name == inputName)) {
-      stdout.write('해당 상품이 존재하지 않습니다. ');
-      ShoppingMessage.printRetryMessage();
-      return null;
-    }
-
-    return inputName;
-  }
-
-  int? getWantedCount() {
-    // 상품 개수 입력
-    stdout.write('상품 개수를 입력해 주세요: ');
-    int? inputCount = int.tryParse(stdin.readLineSync() ?? '');
-    if (inputCount == null) {
-      stdout.write('상품 개수가 올바르지 않습니다. ');
-      ShoppingMessage.printRetryMessage();
-      return null;
-    }
-
-    if (inputCount <= 0) {
-      stdout.write('최소 1개 이상 입력해야 합니다. ');
-      ShoppingMessage.printRetryMessage();
-      return null;
-    }
-
-    return inputCount;
   }
 
   void showTotal() {
