@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:dart_console_shop/shopping_menu.dart';
+
+/// 쇼핑몰 메시지를 입출력 클래스
 class ShoppingMessage {
   /// 시작 메시지를 출력하는 메소드
   static void printWelcomeMessage() {
@@ -19,14 +22,7 @@ class ShoppingMessage {
     stdout.writeln();
     stdout.writeln('메뉴를 선택하세요 (숫자를 입력하세요) ⬇️');
     printDivider();
-    stdout.write('[1] 상품 목록 보기');
-    printMenuDivider();
-    stdout.write('[2] 장바구니에 담기');
-    printMenuDivider();
-    stdout.write('[3] 장바구니 총액 보기');
-    printMenuDivider();
-    stdout.write('[4] 종료');
-    stdout.writeln();
+    ShoppingMenu.printSortedMenu();
     printDivider();
   }
 
