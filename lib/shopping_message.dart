@@ -65,7 +65,7 @@ class ShoppingMessage {
 
   /// 구분선을 출력하는 메소드
   static void printDivider() {
-    stdout.writeln('=' * 100);
+    stdout.writeln('=' * 110);
   }
 
   /// 입력 프롬프트를 출력하는 메소드

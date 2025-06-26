@@ -5,7 +5,8 @@ enum ShoppingMenu {
   viewProducts(menuNum: 1, description: '상품 목록 보기'),
   addToCart(menuNum: 2, description: '장바구니에 담기'),
   viewTotal(menuNum: 3, description: '장바구니 총액 보기'),
-  exit(menuNum: 4, description: '쇼핑몰 종료');
+  resetCart(menuNum: 4, description: '장바구니 초기화'),
+  exit(menuNum: 5, description: '쇼핑몰 종료');
 
   const ShoppingMenu({required this.menuNum, required this.description});
 

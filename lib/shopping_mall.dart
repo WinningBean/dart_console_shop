@@ -57,6 +57,17 @@ class ShoppingMall {
     cartPrice += product.price * count;
   }
 
+  void resetCart() {
+    if (cart.isEmpty) {
+      stdout.writeln('장바구니가 이미 비어 있습니다.');
+      return; // 장바구니가 비어있으면 초기화하지 않음
+    }
+
+    cart.clear();
+    cartPrice = 0;
+    stdout.writeln('장바구니가 초기화되었습니다.');
+  }
+
   /// 쇼핑을 시작하는 메소드
   void startShopping() {
     ShoppingMessage.printWelcomeMessage();
@@ -100,6 +111,9 @@ class ShoppingMall {
         break;
       case ShoppingMenu.addToCart:
         addToCart();
+        break;
+      case ShoppingMenu.resetCart:
+        resetCart();
         break;
       case ShoppingMenu.viewTotal:
         showTotal();
