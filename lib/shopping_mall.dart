@@ -57,6 +57,7 @@ class ShoppingMall {
     cartPrice += product.price * count;
   }
 
+  /// 장바구니를 초기화하는 메소드
   void resetCart() {
     if (cart.isEmpty) {
       stdout.writeln('장바구니가 이미 비어 있습니다.');

@@ -34,5 +34,10 @@ void main() {
     mall.addProductToCart(orange, 1); // Orange
     expect(mall.cart.length, 3);
     expect(mall.cartPrice, 18000);
+
+    // Reset cart
+    mall.resetCart();
+    expect(mall.cart.isEmpty, true);
+    expect(mall.cartPrice, 0);
   });
 }
