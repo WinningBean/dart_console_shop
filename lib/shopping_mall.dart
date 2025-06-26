@@ -44,7 +44,7 @@ class ShoppingMall {
   }
 
   void showTotal() {
-    stdout.writeln('Total price: $cartPrice원');
+    stdout.writeln('💰 장바구니에 $cartPrice원 어치를 담있습니다.');
   }
 
   void startShopping() {
@@ -65,7 +65,7 @@ class ShoppingMall {
           ShoppingMessage.printMenu();
           break;
         case 3:
-          stdout.writeln('장바구니 총액을 보여주는 기능은 아직 구현되지 않았습니다.');
+          showTotal();
           ShoppingMessage.printMenu();
           break;
         case 4:
