@@ -10,7 +10,7 @@ class ShoppingMall {
 
   void showProducts() {
     for (var product in products) {
-      stdout.writeln(product.name);
+      stdout.writeln('${product.name} / ${product.price}원');
     }
   }
 
@@ -33,7 +33,7 @@ class ShoppingMall {
       inputNum = int.parse(stdin.readLineSync() ?? '0');
       switch (inputNum) {
         case 1:
-          stdout.writeln('상품 목록을 보여주는 기능은 아직 구현되지 않았습니다.');
+          showProducts();
           ShoppingMessage.printMenu();
           break;
         case 2:
