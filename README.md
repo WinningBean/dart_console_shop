@@ -1,2 +1,7 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# [Dart 기초] - 콘솔 쇼핑몰
+
+## 시나리오
+🗣 아래의 기능이 들어있는 콘솔 프로그램 만들기
+- 판매하는 상품 목록을 볼 수 있는 기능
+- 구매자가 구매하고 싶은 상품들을 장바구니에 담을 수 있는 기능
+- 구매자가 장바구니에 담은 상품들의 총 가격을 볼 수 있는 기능
