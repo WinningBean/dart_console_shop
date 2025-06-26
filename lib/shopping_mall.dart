@@ -19,6 +19,25 @@ class ShoppingMall {
     }
   }
 
+  /// 장바구니에 담긴 상품을 출력하는 메소드
+  void showCart() {
+    if (cart.isEmpty) {
+      stdout.writeln('장바구니가 비어 있습니다.');
+      return; // 장바구니가 비어있으면 종료
+    }
+
+    stdout.writeln('장바구니에 담긴 상품: ');
+    for (var entry in cart.entries) {
+      stdout.write(entry.key.name);
+      ShoppingMessage.printMenuDivider();
+      stdout.write(entry.key.price);
+      ShoppingMessage.printMenuDivider();
+      stdout.writeln('${entry.value}개');
+    }
+
+    showTotal(); // 총 가격 출력
+  }
+
   /// 장바구니에 담긴 상품의 총 가격을 출력하는 메소드
   void showTotal() {
     stdout.writeln('💰 장바구니에 $cartPrice원 어치를 담있습니다.');
@@ -116,8 +135,8 @@ class ShoppingMall {
       case ShoppingMenu.resetCart:
         resetCart();
         break;
-      case ShoppingMenu.viewTotal:
-        showTotal();
+      case ShoppingMenu.viewCart:
+        showCart();
         break;
       case ShoppingMenu.exit:
         if (isRealyExit) return; // 쇼핑 종료
