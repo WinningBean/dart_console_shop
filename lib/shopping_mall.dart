@@ -20,17 +20,15 @@ class ShoppingMall {
       return; // 상품 이름이 유효하지 않으면 종료
     }
 
-    int? inputCount = getWantedCount();
-    if (inputCount == null) {
+    int? count = getWantedCount();
+    if (count == null) {
       return; // 상품 개수가 유효하지 않으면 종료
     }
 
     // 상품 찾기
     Product product = products.firstWhere((product) => product.name == productName);
-    addProductToCart(product, inputCount);
-    cartPrice += product.price * inputCount;
-
-    stdout.writeln('🛒 $inputCount개의 ${product.name}을(를) 장바구니에 담았습니다.');
+    addProductToCart(product, count);
+    stdout.writeln('🛒 $count ${product.name}을(를) 장바구니에 담았습니다.');
   }
 
   void addProductToCart(Product product, int count) {
@@ -40,6 +38,7 @@ class ShoppingMall {
     } else {
       cart[product] = count;
     }
+    cartPrice += product.price * count;
   }
 
   String? findProductName() {
