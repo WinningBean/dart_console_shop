@@ -10,6 +10,8 @@ class ShoppingMall {
   Map<Product, int> cart;
   int cartPrice;
 
+  bool isStillShopping = true;
+
   /// 상품 목록을 출력하는 메소드
   void showProducts() {
     for (var product in products) {
@@ -60,25 +62,24 @@ class ShoppingMall {
     ShoppingMessage.printWelcomeMessage();
     ShoppingMessage.printMenu();
 
-    ShoppingMenu? menu;
     do {
       // 메뉴 선택
-      menu = selectedMenu;
+      ShoppingMenu? menu = selectedMenu;
       if (menu == null) {
         ShoppingMessage.printMenu();
         continue; // 잘못된 입력이면 다시 메뉴 출력
       }
       actionMenu(menu);
-    } while (menu != ShoppingMenu.exit);
+    } while (isStillShopping);
 
     ShoppingMessage.printExitMessage();
   }
 
   /// 사용자로부터 메뉴 선택을 받는 메소드
   ShoppingMenu? get selectedMenu {
-    ShoppingMenu? menu;
     ShoppingMessage.printInputPrompt();
 
+    ShoppingMenu? menu;
     try {
       menu = ShoppingMenu.getMenuFromMenuNum(
         int.tryParse(stdin.readLineSync() ?? '') ?? 0,
@@ -96,20 +97,34 @@ class ShoppingMall {
     switch (menu) {
       case ShoppingMenu.viewProducts:
         showProducts();
-        ShoppingMessage.printMenu();
         break;
       case ShoppingMenu.addToCart:
         addToCart();
-        ShoppingMessage.printMenu();
         break;
       case ShoppingMenu.viewTotal:
         showTotal();
-        ShoppingMessage.printMenu();
         break;
       case ShoppingMenu.exit:
-        stdout.writeln('쇼핑을 종료합니다.');
+        if (isRealyExit) return; // 쇼핑 종료
         break;
     }
+
+    ShoppingMessage.printMenu(); // 메뉴 출력
+  }
+
+  /// 쇼핑몰을 종료할지 여부를 묻는 메소드
+  bool get isRealyExit {
+    stdout.write("정말 종료하시겠습니까? ('y'입력 시 종료): ");
+    String? input = stdin.readLineSync();
+    if (input?.toLowerCase() == 'y') {
+      isStillShopping = false; // 쇼핑 종료
+      stdout.writeln('쇼핑을 종료합니다.');
+      return true; // 종료
+    }
+
+    isStillShopping = true; // 쇼핑 지속
+    stdout.writeln('쇼핑을 계속합니다.');
+    return false; // 종료하지 않음
   }
 
   /// 생성자
