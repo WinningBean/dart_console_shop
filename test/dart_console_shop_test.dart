@@ -4,10 +4,14 @@ import 'package:test/test.dart';
 
 void main() {
   test('shopping', () {
+    Product apple = Product('Apple', 1000);
+    Product banana = Product('Banana', 5000);
+    Product orange = Product('Orange', 7000);
+
     var products = {
-      Product('Apple', 1000),
-      Product('Banana', 5000),
-      Product('Orange', 7000),
+      apple,
+      banana,
+      orange,
     };
     
     var mall = ShoppingMall(products);
@@ -16,19 +20,19 @@ void main() {
     mall.showProducts();
     
     // Add products to cart
-    // mall.addToCart(products[0]); // Apple
-    // mall.addToCart(products[1]); // Banana
+    mall.addProductToCart(apple, 1); // Apple
+    mall.addProductToCart(banana, 2); // Banana
     
     // Show total price
     mall.showTotal();
     
     // Check if cart contains the correct products and total price
     expect(mall.cart.length, 2);
-    expect(mall.cartPrice, 6000);
+    expect(mall.cartPrice, 11000);
     
     // Add another product to cart
-    // mall.addToCart(products[2]); // Orange
+    mall.addProductToCart(orange, 1); // Orange
     expect(mall.cart.length, 3);
-    expect(mall.cartPrice, 13000);
+    expect(mall.cartPrice, 18000);
   });
 }
