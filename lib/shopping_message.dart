@@ -1,10 +1,6 @@
 import 'dart:io';
 
 class ShoppingMessage {
-    static void printInputPrompt() {
-    stdout.write('입력: ');
-  }
-
   static void printWelcomeMessage() {
     stdout.writeln();
     stdout.writeln('🛍️ 쇼핑몰에 오신 것을 환영합니다!');
@@ -37,5 +33,13 @@ class ShoppingMessage {
 
   static void printDivider() {
     stdout.writeln('=' * 100);
+  }
+
+  static void printInputPrompt() {
+    stdout.write('입력: ');
+  }
+
+  static void printRetryMessage() {
+    stdout.writeln('다시 시도해주세요.');
   }
 }
