@@ -51,10 +51,10 @@ class ShoppingMall {
     ShoppingMessage.printWelcomeMessage();
     ShoppingMessage.printMenu();
 
-    int inputNum;
+    int? inputNum;
     do {
       ShoppingMessage.printInputPrompt();
-      inputNum = int.parse(stdin.readLineSync() ?? '0');
+      inputNum = int.tryParse(stdin.readLineSync() ?? '');
       switch (inputNum) {
         case 1:
           showProducts();
@@ -72,7 +72,9 @@ class ShoppingMall {
           stdout.writeln('쇼핑을 종료합니다.');
           break;
         default:
-          stdout.writeln('잘못된 입력입니다. 다시 시도해주세요.');
+          stdout.write('잘못된 입력입니다. ');
+          ShoppingMessage.printRetryMessage();
+          ShoppingMessage.printMenu();
       }
     } while (inputNum != 4);
 
