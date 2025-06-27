@@ -16,15 +16,9 @@ void main() {
     
     var mall = ShoppingMall(products);
     
-    // Show products
-    mall.showProducts();
-    
     // Add products to cart
     mall.addProductToCart(apple, 1); // Apple
     mall.addProductToCart(banana, 2); // Banana
-    
-    // Show total price
-    mall.showTotal();
     
     // Check if cart contains the correct products and total price
     expect(mall.cart.length, 2);

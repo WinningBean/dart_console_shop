@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dart_console_shop/product.dart';
 import 'package:dart_console_shop/shopping_menu.dart';
 import 'package:dart_console_shop/shopping_io.dart';
@@ -15,36 +13,13 @@ class ShoppingMall {
   /// 상품 목록을 출력하는 메소드
   void showProducts() {
     for (var product in products) {
-      stdout.writeln('${product.name} / ${product.price}원');
+      ShoppingIO.printProduct(product.name, product.price);
     }
   }
 
   /// 장바구니에 담긴 상품을 출력하는 메소드
   void showCart() {
-    if (cart.isEmpty) {
-      stdout.writeln('장바구니가 비어 있습니다.');
-      return; // 장바구니가 비어있으면 종료
-    }
-
-    stdout.writeln('🛒 장바구니에 담긴 상품 리스트');
-    stdout.writeln(
-      cart.entries
-          .map(
-            (entry) =>
-                '${entry.key.name} '
-                '${entry.key.price}원 × ${entry.value}개${ShoppingIO.menuDivider}'
-                '${entry.key.price * entry.value}원',
-          )
-          .join('\n'),
-    );
-
-    stdout.writeln(ShoppingIO.lineDivideChar * 30);
-    showTotal(); // 총 가격 출력
-  }
-
-  /// 장바구니에 담긴 상품의 총 가격을 출력하는 메소드
-  void showTotal() {
-    stdout.writeln('💰 장바구니 총 가격: $cartPrice원');
+    ShoppingIO.printCartItems(cart, cartPrice);
   }
 
   /// 장바구니에 상품을 추가하는 메소드
@@ -55,8 +30,7 @@ class ShoppingMall {
     }
 
     if (!products.any((product) => product.name == productName)) {
-      stdout.write('해당 상품이 존재하지 않습니다. ');
-      ShoppingIO.printRetryMessage();
+      ShoppingIO.printProductNotFoundMessage(productName);
       return; // 상품이 존재하지 않으면 종료
     }
 
@@ -70,7 +44,7 @@ class ShoppingMall {
       (product) => product.name == productName,
     );
     addProductToCart(product, count);
-    stdout.writeln('🛍️ $count개의 ${product.name}을(를) 장바구니에 담았습니다.');
+    ShoppingIO.printAddToCartMessage(product.name, count);
   }
 
   /// 장바구니에 상품을 추가하는 내부 메소드
@@ -87,13 +61,13 @@ class ShoppingMall {
   /// 장바구니를 초기화하는 메소드
   void resetCart() {
     if (cart.isEmpty) {
-      stdout.writeln('장바구니가 이미 비어 있습니다.');
+      ShoppingIO.printCartAlreadyResetMessage();
       return; // 장바구니가 비어있으면 초기화하지 않음
     }
 
     cart.clear();
     cartPrice = 0;
-    stdout.writeln('장바구니가 초기화되었습니다.');
+    ShoppingIO.printCartResetMessage();
   }
 
   /// 쇼핑을 시작하는 메소드
@@ -130,26 +104,14 @@ class ShoppingMall {
         showCart();
         break;
       case ShoppingMenu.exit:
-        if (isRealyExit) return; // 쇼핑 종료
+        if (ShoppingIO.isExit) {
+          isStillShopping = false; // 쇼핑 종료 플래그 설정
+          return; // 쇼핑몰 종료
+        }
         break;
     }
 
     ShoppingIO.printMenu(); // 메뉴 출력
-  }
-
-  /// 쇼핑몰을 종료할지 여부를 묻는 getter
-  bool get isRealyExit {
-    stdout.write("정말 종료하시겠습니까? ('y'입력 시 종료): ");
-    String? input = stdin.readLineSync();
-    if (input?.toLowerCase() == 'y') {
-      isStillShopping = false; // 쇼핑 종료
-      stdout.writeln('쇼핑을 종료합니다.');
-      return true; // 종료
-    }
-
-    isStillShopping = true; // 쇼핑 지속
-    stdout.writeln('쇼핑을 계속합니다.');
-    return false; // 종료하지 않음
   }
 
   /// 생성자

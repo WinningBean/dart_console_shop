@@ -1,16 +1,17 @@
 import 'dart:io';
 
+import 'package:dart_console_shop/product.dart';
 import 'package:dart_console_shop/shopping_menu.dart';
 
 /// 쇼핑몰 메시지를 입출력 클래스
 class ShoppingIO {
-  /// 시작 메시지를 출력하는 메소드
+  /// 시작 메시지를 출력하는 메시지
   static void printWelcomeMessage() {
     stdout.writeln();
     stdout.writeln('🥳 쇼핑몰에 오신 것을 환영합니다!');
   }
 
-  /// 종료 메시지를 출력하는 메소드
+  /// 종료 메시지를 출력하는 메시지
   static void printExitMessage() {
     stdout.writeln();
     stdout.writeln('🤗 안녕히 가세요! 이용해 주셔서 감사합니다.');
@@ -24,6 +25,65 @@ class ShoppingIO {
     printDivider();
     stdout.writeln(ShoppingMenu.sortedMenuGuide);
     printDivider();
+  }
+
+  /// 상품 내역을 출력하는 메소드
+  static void printProduct(String name, int price) {
+    stdout.writeln('$name / $price원');
+  }
+
+  /// 존재하지 않는 상품일 때 출력하는 메시지
+  static void printProductNotFoundMessage(String productName) {
+    stdout.writeln('해당 상품 "$productName"이 존재하지 않습니다. ');
+    printRetryMessage();
+  }
+
+  /// 장바구니에 담긴 상품을 출력하는 메시지
+  static void printCartItems(Map<Product, int> cart, int cartPrice) {
+    if (cart.isEmpty) {
+      printEmptyCartMessage();
+      return; // 장바구니가 비어있으면 종료
+    }
+
+    stdout.writeln('🛒 장바구니에 담긴 상품 리스트:');
+    stdout.writeln(
+      cart.entries
+          .map(
+            (entry) =>
+                '${entry.key.name} '
+                '${entry.key.price}원 × ${entry.value}개$menuDivider'
+                '${entry.key.price * entry.value}원',
+          )
+          .join('\n'),
+    );
+
+    stdout.writeln(ShoppingIO.lineDivideChar * 30);
+    printCartTotalPrice(cartPrice);
+  }
+
+  /// 장바구니에 담긴 상품의 총 가격을 출력하는 메시지
+  static void printCartTotalPrice(int cartPrice) {
+    stdout.writeln('💰 장바구니 총 가격: $cartPrice원');
+  }
+
+  /// 장바구니에 상품을 추가했을 때 출력하는 메시지
+  static void printAddToCartMessage(String productName, int count) {
+    stdout.writeln('🛍️ $count개의 $productName을(를) 장바구니에 담았습니다.');
+  }
+
+  /// 장바구니가 비어있을 때 출력하는 메시지
+  static void printEmptyCartMessage() {
+    stdout.writeln('장바구니가 비어 있습니다. 상품을 추가해주세요.');
+  }
+
+  /// 장바구니가 초기화되었을 때 출력하는 메시지
+  static void printCartResetMessage() {
+    stdout.writeln('장바구니가 초기화되었습니다.');
+  }
+
+  /// 장바구니 초기화 시 이미 비어있을 때 출력하는 메시지
+  static void printCartAlreadyResetMessage() {
+    stdout.writeln('장바구니가 이미 비어 있습니다.');
   }
 
   /// 상품 이름을 입력받는 메소드
@@ -73,6 +133,20 @@ class ShoppingIO {
       return null;
     }
     return menu;
+  }
+
+  /// 쇼핑을 종료할지 여부를 묻고, 종료 여부를 반환하는 getter
+  static bool get isExit {
+    stdout.write("쇼핑을 종료하시겠습니까? ('y'입력 시 종료): ");
+
+    String? input = stdin.readLineSync();
+    if (input?.toLowerCase() == 'y') {
+      stdout.writeln('쇼핑을 종료합니다.');
+      return true;
+    }
+
+    stdout.writeln('쇼핑을 계속합니다.');
+    return false;
   }
 
   /// 메뉴 구분자를 반환하는 getter
