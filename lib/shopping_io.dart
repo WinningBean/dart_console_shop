@@ -29,7 +29,7 @@ class ShoppingIO {
 
   /// 상품 내역을 출력하는 메소드
   static void printProduct(String name, int price) {
-    stdout.writeln('$name / $price원');
+    stdout.writeln('$name / ${formatPrice(price)}');
   }
 
   /// 존재하지 않는 상품일 때 출력하는 메시지
@@ -51,19 +51,19 @@ class ShoppingIO {
           .map(
             (entry) =>
                 '${entry.key.name} '
-                '${entry.key.price}원 × ${entry.value}개$menuDivider'
-                '${entry.key.price * entry.value}원',
+                '${formatPrice(entry.key.price)}원 × ${entry.value}개$menuDivider'
+                '${formatPrice(entry.key.price * entry.value)}',
           )
           .join('\n'),
     );
 
-    stdout.writeln(ShoppingIO.lineDivideChar * 30);
+    stdout.writeln(ShoppingIO.lineDivideChar * 50);
     printCartTotalPrice(cartPrice);
   }
 
   /// 장바구니에 담긴 상품의 총 가격을 출력하는 메시지
   static void printCartTotalPrice(int cartPrice) {
-    stdout.writeln('💰 장바구니 총 가격: $cartPrice원');
+    stdout.writeln('💰 장바구니 총 가격: ${formatPrice(cartPrice)}');
   }
 
   /// 장바구니에 상품을 추가했을 때 출력하는 메시지
@@ -168,5 +168,13 @@ class ShoppingIO {
   /// 재시도 메시지를 출력하는 메소드
   static void printRetryMessage() {
     stdout.writeln('다시 시도해주세요.');
+  }
+
+  /// 가격을 포맷팅하는 메소드
+  static String formatPrice(int price) {
+    return '${price.toString().replaceAllMapped(
+      RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    )}원';
   }
 }
