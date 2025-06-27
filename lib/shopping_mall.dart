@@ -39,6 +39,12 @@ class ShoppingMall {
       return; // 상품 개수가 유효하지 않으면 종료
     }
 
+    // 장바구니 모든 상품이 100개가 넘어갈 경우
+    if (cart.values.fold(0, (sum, count) => sum + count) + count > 100) {
+      ShoppingIO.printCartOverLimitMessage();
+      return; // 장바구니 개수가 100개를 넘어가면 종료
+    }
+
     // 상품 찾고 장바구니 추가
     Product product = products.firstWhere(
       (product) => product.name == productName,

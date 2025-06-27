@@ -86,6 +86,12 @@ class ShoppingIO {
     stdout.writeln('장바구니가 이미 비어 있습니다.');
   }
 
+  /// 장바구니에 담긴 상품이 100개를 넘어갈 때 출력하는 메시지
+  static void printCartOverLimitMessage() {
+    stdout.writeln('장바구니에 담을 수 있는 상품은 최대 100개입니다.');
+    stdout.writeln('장바구니를 초기화하고 다시 시도해주세요.');
+  }
+
   /// 상품 이름을 입력받는 메소드
   static String? getInputProductName() {
     stdout.write('상품 이름을 입력해 주세요: ');
